@@ -7,7 +7,7 @@ class TestBooksCollector:
         collector = BooksCollector()
         collector.add_new_book('Гордость и предубеждение и зомби')
         collector.add_new_book('Что делать, если ваш кот хочет вас убить')
-        assert len(collector.get_books_rating()) == 2
+        assert len(collector.get_books_genre()) == 2
 
     def test_add_new_book_with_long_name_should_not_add(self):
         collector = BooksCollector()
@@ -91,11 +91,18 @@ class TestBooksCollector:
 
         collector.add_new_book(book_name)
         collector.add_book_in_favorites(book_name)
+        assert book_name in collector.get_list_of_favorites_books()
+
+    def test_delete_book_from_favorites_removal(self):
+        collector = BooksCollector()
+        book_name = 'Книга для удаления'
+
+        collector.add_new_book(book_name)
+        collector.add_book_in_favorites(book_name)
 
         assert book_name in collector.get_list_of_favorites_books()
 
         collector.delete_book_from_favorites(book_name)
-
         assert len(collector.get_list_of_favorites_books()) == 0
 
     @main.mark.parametrize('book_name,expected_count', [
@@ -116,3 +123,51 @@ class TestBooksCollector:
         collector.add_new_book(book_name)
         collector.set_book_genre(book_name, genre)
         assert collector.get_book_genre(book_name) == genre
+
+    def test_empty_book_name_not_added(self):
+        collector = BooksCollector()
+        collector.add_new_book('')
+        assert len(collector.get_books_genre()) == 0
+
+    def test_get_book_genre_for_nonexistent_book(self):
+        collector = BooksCollector()
+        assert collector.get_book_genre('Несуществующая книга') is None
+
+    def test_get_books_with_nonexistent_genre(self):
+        collector = BooksCollector()
+        collector.add_new_book('Книга')
+        result = collector.get_books_with_specific_genre('Несуществующий жанр')
+        assert result == []
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
