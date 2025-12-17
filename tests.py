@@ -125,3 +125,4 @@ class TestBooksCollector:
         collector.add_new_book('Книга')
         result = collector.get_books_with_specific_genre('Несуществующий жанр')
         assert result == []
+
