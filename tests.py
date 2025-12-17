@@ -85,25 +85,12 @@ class TestBooksCollector:
         collector.add_book_in_favorites('Несуществующая книга')
         assert len(collector.get_list_of_favorites_books()) == 0
 
-    def test_delete_book_from_favorites(self):
+    def test_delete_book_from_favorites_book_removed(self):
         collector = BooksCollector()
         book_name = 'Книга для удаления'
-
-        collector.add_new_book(book_name)
-        collector.add_book_in_favorites(book_name)
-        assert book_name in collector.get_list_of_favorites_books()
-
-    def test_delete_book_from_favorites_removal(self):
-        collector = BooksCollector()
-        book_name = 'Книга для удаления'
-
-        collector.add_new_book(book_name)
-        collector.add_book_in_favorites(book_name)
-
-        assert book_name in collector.get_list_of_favorites_books()
-
+        collector.favorites.append(book_name)
         collector.delete_book_from_favorites(book_name)
-        assert len(collector.get_list_of_favorites_books()) == 0
+        assert book_name not in collector.get_list_of_favorites_books()
 
     @main.mark.parametrize('book_name,expected_count', [
         ('A' * 1, 1),
